@@ -6,48 +6,58 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
-    public string mainWord = "default";
-    public int livesCount = 10;
-    public TextMeshProUGUI mainWordText;
-    public TextMeshProUGUI LivesCountText;
-    public TextMeshProUGUI messegeText;
-    public TMP_InputField inputField;
+    public string mainWord = "defoult";
+    public int livesCount = 3;
+    public TextMeshProUGUI textSecretWord;
+    public TextMeshProUGUI textLivesCount;
     
+    public TMP_InputField inputField;
+    public TextMeshProUGUI textSecretWordLength;
     
     // Start is called before the first frame update
     void Start()
     {
-        mainWordText.text = mainWord;
-       LivesCountText.text = $"zastalo {livesCount} prob";
+        textSecretWord.text = "The secret word is "+ mainWord;
+        textLivesCount.text = $"You have {livesCount} lives left";
+        textSecretWordLength.text = "The length of the messege is: 5 ";
        
     }
 
     public void OnClick()
     {
-        Debug.Log($"guzik został kliknięty");
         livesCount = livesCount -1;
-        //livesCount -=1;
-        //livesCount --; это все одно и то же 
-        LivesCountText.text = $"zastało {livesCount} prób";
+        textLivesCount.text = $"You have {livesCount} lives left";
+        if (livesCount <= 0)
+        {
+            
+            textSecretWord.text ="The word was: " + mainWord;
+            textSecretWordLength.text = "Game over ";
+            textLivesCount.text = " You have no lives left";
+        }
 
         if (mainWord == inputField.text)
         {
-            messegeText.text = $"Poprawne słowo zostało wpisane";
-            return; 
+           textSecretWord.text ="The word was: " + mainWord;
+           textSecretWordLength.text = "Congratulations! You win! ";
+           textLivesCount.text = "You have" + livesCount +" lives left ";
+
             //koniec mietody
         }
         if (mainWord.Length != inputField.text.Length) 
         {
-            messegeText.text = $"liczba liter się nie zgadza";
-            return; 
+            textSecretWord.text = $"Wrong Lenth, try again";
             //koniec mietody
         }
         
+        
         int bullsCount = CountBulls();
         int cowsCount = CountCows();
-        messegeText.text = $"Bulls: {bullsCount} and cows: {cowsCount}";
+        textSecretWord.text = $"Bulls: {bullsCount} and cows: {cowsCount}";
     }
-
+  /* public void Win()
+    {
+        
+   } */
     public int CountBulls()
     {
         int result = 0;
@@ -77,10 +87,5 @@ public class GameController : MonoBehaviour
         }
         return result;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
